@@ -15,7 +15,7 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping("/{clientNumber}")
-    public Client getClientByClientNumber(@PathVariable String clientNumber){
+    public Client getClientByClientNumber(@PathVariable("clientNumber") String clientNumber){
         return clientService.findOneByClientNumber(clientNumber);
     }
 
