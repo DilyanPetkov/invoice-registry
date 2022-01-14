@@ -15,9 +15,6 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     public Invoice createInvoice(Invoice invoice){
         List<Item> itemList = invoice.getItems();
         for(Item item: itemList){

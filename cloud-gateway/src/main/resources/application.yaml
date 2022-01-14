@@ -1,0 +1,18 @@
+server:
+  port:
+    9191
+
+spring:
+  application:
+    name: CLOUD-GATEWAY
+  cloud:
+    gateway:
+      routes:
+        - id: CLIENT-SERVICE
+          uri: lb://CLIENT-SERVICE
+          predicates:
+            - Path=/clients/**
+        - id: INVOICE-SERVICE
+          uri: lb://INVOICE-SERVICE
+          predicates:
+            - Path=/invoices/**
