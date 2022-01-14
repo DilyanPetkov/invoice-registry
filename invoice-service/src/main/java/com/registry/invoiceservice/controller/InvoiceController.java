@@ -2,7 +2,6 @@ package com.registry.invoiceservice.controller;
 
 import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.service.InvoiceService;
-import com.registry.invoiceservice.valobject.ResponseObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +29,4 @@ public class InvoiceController {
         return invoiceService.createInvoice(invoice);
     }
 
-    @GetMapping("/{clientNumber}")
-    public ResponseObject getInvoiceByClientNumber(@PathVariable("clientNumber") String clientNumber) {
-        return invoiceService.getInvoiceByClientNumber(clientNumber);
-    }
 }

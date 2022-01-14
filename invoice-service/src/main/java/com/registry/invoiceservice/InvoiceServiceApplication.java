@@ -16,9 +16,4 @@ public class InvoiceServiceApplication {
 		SpringApplication.run(InvoiceServiceApplication.class, args);
 	}
 
-	@Bean
-	public RestTemplate restTemplate(){
-		return new RestTemplate();
-	}
-
 }
