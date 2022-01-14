@@ -16,32 +16,32 @@ public class CloudGatewayController {
     @Autowired
     private CloudGatewayService cloudGatewayService;
 
-    @GetMapping("/client/{id}")
+    @GetMapping("/clients/{id}")
     public ClientDTO getClientById(@PathVariable("id") String clientNumber) {
         return cloudGatewayService.findOneByClientNumber(clientNumber);
     }
 
-    @GetMapping("/all-clients")
+    @GetMapping("/clients")
     public List<ClientDTO> getAllClients() {
         return cloudGatewayService.getAllClients();
     }
 
-    @PostMapping("create-client")
+    @PostMapping("client")
     public ClientDTO createClient(@RequestBody ClientDTO clientDTO) {
         return cloudGatewayService.createClient(clientDTO);
     }
 
-    @GetMapping("/invoice/{id}")
+    @GetMapping("/invoices/{id}")
     public InvoiceDTO getInvoiceById(@PathVariable("id") Integer id) {
         return cloudGatewayService.getInvoiceById(id);
     }
 
-    @GetMapping("/all-invoices")
+    @GetMapping("/invoices")
     public List<InvoiceDTO> getAllInvoices() {
         return cloudGatewayService.getAllInvoices();
     }
 
-    @PostMapping("create-invoice")
+    @PostMapping("/invoice")
     public InvoiceDTO createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         return cloudGatewayService.createInvoice(invoiceDTO);
     }

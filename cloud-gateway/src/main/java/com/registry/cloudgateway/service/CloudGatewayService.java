@@ -3,6 +3,7 @@ package com.registry.cloudgateway.service;
 import com.registry.cloudgateway.dto.ClientDTO;
 import com.registry.cloudgateway.dto.InvoiceDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,31 +17,34 @@ public class CloudGatewayService {
     @Autowired
     private RestTemplate restTemplate;
 
-    private static final String CLIENT_URL = "http://localhost:8081/clients";
-    private static final String INVOICE_URL = "http://localhost:8082/invoices";
+    @Value("${clients.url}")
+    private String clientUrl;
+
+    @Value("${invoices.url}")
+    private String invoiceUrl;
 
     public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
-        return restTemplate.postForObject(INVOICE_URL + "/create", invoiceDTO, InvoiceDTO.class);
+        return restTemplate.postForObject(invoiceUrl + "/create", invoiceDTO, InvoiceDTO.class);
     }
 
     public List<InvoiceDTO> getAllInvoices() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(INVOICE_URL + "/all", InvoiceDTO[].class)));
+        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(invoiceUrl + "/all", InvoiceDTO[].class)));
     }
 
     public InvoiceDTO getInvoiceById(Integer id) {
-        return restTemplate.getForObject(INVOICE_URL + "/" + id, InvoiceDTO.class);
+        return restTemplate.getForObject(invoiceUrl + "/" + id, InvoiceDTO.class);
     }
 
     public ClientDTO findOneByClientNumber(String clientNumber) {
-        return restTemplate.getForObject(CLIENT_URL + "/" + clientNumber, ClientDTO.class);
+        return restTemplate.getForObject(clientUrl + "/" + clientNumber, ClientDTO.class);
     }
 
     public List<ClientDTO> getAllClients() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(CLIENT_URL + "/all", ClientDTO[].class)));
+        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(clientUrl + "/all", ClientDTO[].class)));
     }
 
     public ClientDTO createClient(ClientDTO client) {
-        return restTemplate.postForObject(CLIENT_URL + "/create", client, ClientDTO.class);
+        return restTemplate.postForObject(clientUrl + "/create", client, ClientDTO.class);
     }
 
 }

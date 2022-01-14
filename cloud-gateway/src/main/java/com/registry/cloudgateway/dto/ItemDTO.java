@@ -16,5 +16,6 @@ public class ItemDTO {
     private Double singlePrice;
     private Double vat;
     private Double quantity;
+    private Double totalPrice;
 
 }
