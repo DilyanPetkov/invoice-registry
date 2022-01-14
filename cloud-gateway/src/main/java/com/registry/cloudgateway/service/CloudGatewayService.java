@@ -24,11 +24,11 @@ public class CloudGatewayService {
     private String invoiceUrl;
 
     public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
-        return restTemplate.postForObject(invoiceUrl + "/create", invoiceDTO, InvoiceDTO.class);
+        return restTemplate.postForObject(invoiceUrl + "/invoice", invoiceDTO, InvoiceDTO.class);
     }
 
     public List<InvoiceDTO> getAllInvoices() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(invoiceUrl + "/all", InvoiceDTO[].class)));
+        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(invoiceUrl + "/invoices", InvoiceDTO[].class)));
     }
 
     public InvoiceDTO getInvoiceById(Integer id) {
@@ -40,11 +40,11 @@ public class CloudGatewayService {
     }
 
     public List<ClientDTO> getAllClients() {
-        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(clientUrl + "/all", ClientDTO[].class)));
+        return Arrays.asList(Objects.requireNonNull(restTemplate.getForObject(clientUrl + "/clients", ClientDTO[].class)));
     }
 
     public ClientDTO createClient(ClientDTO client) {
-        return restTemplate.postForObject(clientUrl + "/create", client, ClientDTO.class);
+        return restTemplate.postForObject(clientUrl + "/client", client, ClientDTO.class);
     }
 
 }

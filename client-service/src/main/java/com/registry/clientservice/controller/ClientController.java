@@ -19,12 +19,12 @@ public class ClientController {
         return clientService.findOneByClientNumber(clientNumber);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/clients")
     public List<Client> getAllClients(){
         return clientService.getAllClients();
     }
 
-    @PostMapping("/create")
+    @PostMapping("/client")
     public Client createClient(@RequestBody Client client){
         return clientService.createClient(client);
     }
