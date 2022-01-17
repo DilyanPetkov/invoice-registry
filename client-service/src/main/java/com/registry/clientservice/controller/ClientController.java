@@ -3,6 +3,7 @@ package com.registry.clientservice.controller;
 import com.registry.clientservice.entity.Client;
 import com.registry.clientservice.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +21,9 @@ public class ClientController {
     }
 
     @GetMapping("/clients")
-    public List<Client> getAllClients(){
-        return clientService.getAllClients();
+    public Page<Client> getAllClients(@RequestParam(value = "page", required = false) Integer page,
+                                      @RequestParam(value = "size", required = false) Integer size){
+        return clientService.getAllClients(page, size);
     }
 
     @PostMapping("/clients")

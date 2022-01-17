@@ -3,6 +3,7 @@ package com.registry.invoiceservice.controller;
 import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,8 +21,9 @@ public class InvoiceController {
     }
 
     @GetMapping("/invoices")
-    public List<Invoice> findAllInvoices(){
-        return invoiceService.getAllInvoices();
+    public Page<Invoice> findAllInvoices(@RequestParam(value = "page", required = false) Integer page,
+                                         @RequestParam(value = "size", required = false) Integer size){
+        return invoiceService.getAllInvoices(page, size);
     }
 
     @PostMapping("/invoices")

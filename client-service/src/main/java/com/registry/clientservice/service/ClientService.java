@@ -3,6 +3,9 @@ package com.registry.clientservice.service;
 import com.registry.clientservice.entity.Client;
 import com.registry.clientservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +20,11 @@ public class ClientService {
         return clientRepository.findByClientNumber(clientNumber);
     }
 
-    public List<Client> getAllClients(){
-        return clientRepository.findAll();
+    public Page<Client> getAllClients(Integer page, Integer size){
+        if(page == null || size == null ){
+            return clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count()));
+        }
+        return clientRepository.findAll(PageRequest.of(page, size));
     }
 
     public Client createClient(Client client){

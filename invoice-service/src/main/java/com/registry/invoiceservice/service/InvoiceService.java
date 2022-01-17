@@ -4,6 +4,8 @@ import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.entity.Item;
 import com.registry.invoiceservice.repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -24,8 +26,11 @@ public class InvoiceService {
         return invoiceRepository.save(invoice);
     }
 
-    public List<Invoice> getAllInvoices(){
-        return invoiceRepository.findAll();
+    public Page<Invoice> getAllInvoices(Integer page, Integer size){
+        if(page == null || size == null ){
+            return invoiceRepository.findAll(PageRequest.of(0, (int) invoiceRepository.count()));
+        }
+        return invoiceRepository.findAll(PageRequest.of(page, size));
     }
 
     public Invoice getInvoiceById(Integer id){
