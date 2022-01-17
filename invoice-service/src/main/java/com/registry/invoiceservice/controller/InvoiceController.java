@@ -19,12 +19,12 @@ public class InvoiceController {
         return invoiceService.getInvoiceById(id);
     }
 
-    @GetMapping("/all")
+    @GetMapping("/invoices")
     public List<Invoice> findAllInvoices(){
         return invoiceService.getAllInvoices();
     }
 
-    @PostMapping("/create")
+    @PostMapping("/invoices")
     public Invoice createInvoice(@RequestBody Invoice invoice){
         return invoiceService.createInvoice(invoice);
     }
