@@ -31,6 +31,10 @@ public class CloudGatewayService {
         ParameterizedTypeReference<RestResponsePage<InvoiceDTO>> responseType = new ParameterizedTypeReference<>() {
         };
 
+        if(page==null || size==null){
+            return restTemplate.exchange(invoiceUrl + "/", HttpMethod.GET, null, responseType);
+        }
+
         return restTemplate.exchange(invoiceUrl + "?page=" + page + "&size=" + size, HttpMethod.GET, null, responseType);
     }
 
@@ -45,7 +49,9 @@ public class CloudGatewayService {
     public ResponseEntity<RestResponsePage<ClientDTO>> getAllClients(Integer page, Integer size) {
         ParameterizedTypeReference<RestResponsePage<ClientDTO>> responseType = new ParameterizedTypeReference<>() {
         };
-
+        if(page==null || size==null){
+            return restTemplate.exchange(clientUrl + "/", HttpMethod.GET, null, responseType);
+        }
         return restTemplate.exchange(clientUrl + "?page=" + page + "&size=" + size, HttpMethod.GET, null, responseType);
     }
 
