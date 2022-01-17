@@ -20,13 +20,13 @@ public class ClientController {
         return clientService.findOneByClientNumber(clientNumber);
     }
 
-    @GetMapping("/clients")
+    @GetMapping()
     public Page<Client> getAllClients(@RequestParam(value = "page", required = false) Integer page,
                                       @RequestParam(value = "size", required = false) Integer size){
         return clientService.getAllClients(page, size);
     }
 
-    @PostMapping("/clients")
+    @PostMapping()
     public Client createClient(@RequestBody Client client){
         return clientService.createClient(client);
     }

@@ -20,13 +20,13 @@ public class InvoiceController {
         return invoiceService.getInvoiceById(id);
     }
 
-    @GetMapping("/invoices")
+    @GetMapping()
     public Page<Invoice> findAllInvoices(@RequestParam(value = "page", required = false) Integer page,
                                          @RequestParam(value = "size", required = false) Integer size){
         return invoiceService.getAllInvoices(page, size);
     }
 
-    @PostMapping("/invoices")
+    @PostMapping()
     public Invoice createInvoice(@RequestBody Invoice invoice){
         return invoiceService.createInvoice(invoice);
     }
