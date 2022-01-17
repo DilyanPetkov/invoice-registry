@@ -24,7 +24,7 @@ public class InvoiceController {
         return invoiceService.getAllInvoices();
     }
 
-    @PostMapping("/invoice")
+    @PostMapping("/invoices")
     public Invoice createInvoice(@RequestBody Invoice invoice){
         return invoiceService.createInvoice(invoice);
     }

@@ -26,7 +26,7 @@ public class CloudGatewayController {
         return cloudGatewayService.getAllClients();
     }
 
-    @PostMapping("client")
+    @PostMapping("clients")
     public ClientDTO createClient(@RequestBody ClientDTO clientDTO) {
         return cloudGatewayService.createClient(clientDTO);
     }
@@ -41,7 +41,7 @@ public class CloudGatewayController {
         return cloudGatewayService.getAllInvoices();
     }
 
-    @PostMapping("/invoice")
+    @PostMapping("/invoices")
     public InvoiceDTO createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         return cloudGatewayService.createInvoice(invoiceDTO);
     }

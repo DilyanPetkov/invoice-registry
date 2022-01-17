@@ -24,7 +24,7 @@ public class ClientController {
         return clientService.getAllClients();
     }
 
-    @PostMapping("/client")
+    @PostMapping("/clients")
     public Client createClient(@RequestBody Client client){
         return clientService.createClient(client);
     }
