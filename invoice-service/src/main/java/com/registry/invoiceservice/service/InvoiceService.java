@@ -34,7 +34,7 @@ public class InvoiceService {
     }
 
     public Invoice getInvoiceById(Long id) {
-        return invoiceRepository.findById(id).orElseThrow(NullPointerException::new);
+        return invoiceRepository.findById(id).get();
     }
 
     public List<Invoice> getInvoicesByCriteria(CriteriaDto criteriaDto) {
