@@ -1,5 +1,6 @@
 package com.registry.invoiceservice.service;
 
+import com.registry.invoiceservice.dto.CriteriaDto;
 import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.entity.Item;
 import com.registry.invoiceservice.repository.InvoiceRepository;
@@ -9,7 +10,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class InvoiceService {
@@ -35,6 +38,11 @@ public class InvoiceService {
 
     public Invoice getInvoiceById(Integer id){
         return invoiceRepository.findById(id).orElseThrow(NullPointerException::new);
+    }
+
+    public List<Invoice> getInvoicesByCriteria(CriteriaDto criteriaDto){
+
+        return invoiceRepository.searchInvoiceByCriteria(criteriaDto.getQuantityGreaterThan(), criteriaDto.getTotalPriceGreaterThan());
     }
 
 }

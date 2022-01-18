@@ -4,11 +4,18 @@ import com.registry.invoiceservice.entity.Invoice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public interface InvoiceRepository extends JpaRepository<Invoice, Integer> {
     Invoice findByClientNumber(String clientNumber);
+
+    @Query(value = "SELECT * FROM invoice left join invoice_items on invoice.id=invoice_items.invoice_id left join item on invoice_items.items_id=item.id WHERE item.quantity < ?1 and item.total_price < ?2" ,
+    nativeQuery=true)
+    List<Invoice> searchInvoiceByCriteria(Double quantity, Double totalPrice);
 
     Page<Invoice> findAll(Pageable pageable);
 }

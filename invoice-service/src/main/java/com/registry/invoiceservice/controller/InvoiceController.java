@@ -1,11 +1,13 @@
 package com.registry.invoiceservice.controller;
 
+import com.registry.invoiceservice.dto.CriteriaDto;
 import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 @RestController
@@ -29,6 +31,11 @@ public class InvoiceController {
     @PostMapping()
     public Invoice createInvoice(@RequestBody Invoice invoice){
         return invoiceService.createInvoice(invoice);
+    }
+
+    @PostMapping("/search")
+    public List<Invoice> getInvoicesByCriteria(@RequestBody CriteriaDto criteriaDto){
+        return invoiceService.getInvoicesByCriteria(criteriaDto);
     }
 
 }

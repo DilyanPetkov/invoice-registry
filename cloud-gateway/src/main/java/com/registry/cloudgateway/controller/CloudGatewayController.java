@@ -27,7 +27,7 @@ public class CloudGatewayController {
         return cloudGatewayService.getAllClients(page, size);
     }
 
-    @PostMapping("clients")
+    @PostMapping("/clients")
     public ClientDTO createClient(@RequestBody ClientDTO clientDTO) {
         return cloudGatewayService.createClient(clientDTO);
     }
