@@ -1,6 +1,7 @@
 package com.registry.cloudgateway.controller;
 
 import com.registry.cloudgateway.dto.ClientDTO;
+import com.registry.cloudgateway.dto.CriteriaDTO;
 import com.registry.cloudgateway.dto.InvoiceDTO;
 import com.registry.cloudgateway.dto.RestResponsePage;
 import com.registry.cloudgateway.service.CloudGatewayService;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @EnableEurekaClient
 @RestController
@@ -33,7 +36,7 @@ public class CloudGatewayController {
     }
 
     @GetMapping("/invoices/{id}")
-    public InvoiceDTO getInvoiceById(@PathVariable("id") Integer id) {
+    public InvoiceDTO getInvoiceById(@PathVariable("id") Long id) {
         return cloudGatewayService.getInvoiceById(id);
     }
 
@@ -46,6 +49,11 @@ public class CloudGatewayController {
     @PostMapping("/invoices")
     public InvoiceDTO createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         return cloudGatewayService.createInvoice(invoiceDTO);
+    }
+
+    @PostMapping("/invoices/search")
+    public List<InvoiceDTO> searchInvoice(@RequestBody CriteriaDTO criteriaDTO) {
+        return cloudGatewayService.searchInvoice(criteriaDTO);
     }
 
 }

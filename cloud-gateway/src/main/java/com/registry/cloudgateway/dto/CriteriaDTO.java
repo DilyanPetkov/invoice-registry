@@ -1,4 +1,4 @@
-package com.registry.invoiceservice.dto;
+package com.registry.cloudgateway.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,8 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriteriaDto {
-    BigDecimal quantityGreaterThan;
-    BigDecimal totalPriceGreaterThan;
+public class CriteriaDTO {
+    BigDecimal quantity;
+    BigDecimal totalPrice;
+
 }

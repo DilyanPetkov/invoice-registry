@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -13,9 +15,9 @@ public class ItemDTO {
     private String serialNumber;
     private String catalogueNumber;
     private String name;
-    private Double singlePrice;
-    private Double vat;
-    private Double quantity;
-    private Double totalPrice;
+    private BigDecimal singlePrice;
+    private BigDecimal vat;
+    private BigDecimal quantity;
+    private BigDecimal totalPrice;
 
 }

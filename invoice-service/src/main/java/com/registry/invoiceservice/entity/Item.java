@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.math.BigDecimal;
 
 @Entity
 @AllArgsConstructor
@@ -17,14 +18,14 @@ public class Item {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String serialNumber;
     private String catalogueNumber;
     private String name;
-    private Double singlePrice;
-    private Double vat;
-    private Double quantity;
-    private Double totalPrice;
+    private BigDecimal singlePrice;
+    private BigDecimal vat;
+    private BigDecimal quantity;
+    private BigDecimal totalPrice;
 
 }

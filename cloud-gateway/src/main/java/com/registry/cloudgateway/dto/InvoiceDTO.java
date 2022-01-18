@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class InvoiceDTO {
 
-    private Integer id;
+    private Long id;
 
     private String clientNumber;
     private String clientName;

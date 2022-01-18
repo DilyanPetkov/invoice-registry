@@ -5,11 +5,8 @@ import com.registry.clientservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ClientService {
@@ -17,18 +14,18 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client findOneByClientNumber(String clientNumber){
+    public Client findOneByClientNumber(String clientNumber) {
         return clientRepository.findByClientNumber(clientNumber);
     }
 
-    public Page<Client> getAllClients(Integer page, Integer size){
-        if(page == null || size == null ){
-            return clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count(),  Sort.by(Sort.Direction.ASC, "clientName")));
+    public Page<Client> getAllClients(Integer page, Integer size) {
+        if (page == null || size == null) {
+            return clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count(), Sort.by(Sort.Direction.ASC, "clientName")));
         }
         return clientRepository.findAll(PageRequest.of(page, size));
     }
 
-    public Client createClient(Client client){
+    public Client createClient(Client client) {
         return clientRepository.save(client);
     }
 
