@@ -1,6 +1,6 @@
 package com.registry.invoiceservice.controller;
 
-import com.registry.invoiceservice.dto.CriteriaDto;
+import com.registry.invoiceservice.dto.InvoiceSearchRequestDTO;
 import com.registry.invoiceservice.dto.InvoiceDTO;
 import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.service.InvoiceService;
@@ -23,7 +23,7 @@ public class InvoiceController {
     }
 
     @GetMapping
-    public Page<Invoice> findAllInvoices(@RequestParam(value = "page", required = false) Integer page,
+    public Page<InvoiceDTO> findAllInvoices(@RequestParam(value = "page", required = false) Integer page,
                                          @RequestParam(value = "size", required = false) Integer size) {
         return invoiceService.getAllInvoices(page, size);
     }
@@ -34,7 +34,7 @@ public class InvoiceController {
     }
 
     @PostMapping("/search")
-    public List<InvoiceDTO> getInvoicesByCriteria(@RequestBody CriteriaDto criteriaDto) {
+    public List<InvoiceDTO> getInvoicesByCriteria(@RequestBody InvoiceSearchRequestDTO criteriaDto) {
         return invoiceService.getInvoicesByCriteria(criteriaDto);
     }
 

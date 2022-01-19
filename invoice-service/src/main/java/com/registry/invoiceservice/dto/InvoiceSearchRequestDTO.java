@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriteriaDto {
+public class InvoiceSearchRequestDTO {
     Integer quantityGreaterThan;
     BigDecimal totalPriceGreaterThan;
 }

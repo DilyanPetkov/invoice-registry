@@ -1,6 +1,6 @@
 package com.registry.invoiceservice.service;
 
-import com.registry.invoiceservice.dto.CriteriaDto;
+import com.registry.invoiceservice.dto.InvoiceSearchRequestDTO;
 import com.registry.invoiceservice.dto.InvoiceDTO;
 import com.registry.invoiceservice.dto.ItemDTO;
 import com.registry.invoiceservice.entity.Invoice;
@@ -8,10 +8,13 @@ import com.registry.invoiceservice.entity.Item;
 import com.registry.invoiceservice.repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,18 +33,40 @@ public class InvoiceService {
         return mapToInvoiceDTO(invoiceRepository.save(mapToInvoiceEntity(invoiceDTO)));
     }
 
-    public Page<Invoice> getAllInvoices(Integer page, Integer size) {
+    public Page<InvoiceDTO> getAllInvoices(Integer page, Integer size) {
         if (page == null || size == null) {
-            return invoiceRepository.findAll(PageRequest.of(0, (int) invoiceRepository.count()));
+            if (BigInteger.valueOf(invoiceRepository.count()).compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) < 0) {
+                Page<Invoice> invoicePage = invoiceRepository.findAll(PageRequest.of(0, (int) invoiceRepository.count(),
+                        Sort.by(Sort.Direction.ASC, "clientName")));
+                List<Invoice> invoices = invoicePage.getContent();
+                List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
+                for (Invoice invoice : invoices) {
+                    invoiceDTOS.add(mapToInvoiceDTO(invoice));
+                }
+
+                return new PageImpl<>(invoiceDTOS, PageRequest.of(0, (int) invoiceRepository.count(),
+                        Sort.by(Sort.Direction.ASC, "clientName")),
+                        (int) invoiceRepository.count());
+
+            } else
+                throw new ArithmeticException("Entities in DB way too much, cannot display them on the pages");
         }
-        return invoiceRepository.findAll(PageRequest.of(page, size));
+        Page<Invoice> invoicePage = invoiceRepository.findAll(PageRequest.of(page, size));
+        List<Invoice> invoices = invoicePage.getContent();
+        List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
+        for (Invoice invoice : invoices) {
+            invoiceDTOS.add(mapToInvoiceDTO(invoice));
+        }
+
+        return new PageImpl<>(invoiceDTOS, PageRequest.of(page, size),
+                (int) invoiceRepository.count());
     }
 
     public InvoiceDTO getInvoiceById(Long id) {
         return mapToInvoiceDTO(invoiceRepository.findById(id).get());
     }
 
-    public List<InvoiceDTO> getInvoicesByCriteria(CriteriaDto criteriaDto) {
+    public List<InvoiceDTO> getInvoicesByCriteria(InvoiceSearchRequestDTO criteriaDto) {
         List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
         List<Invoice> invoices = invoiceRepository.searchInvoiceByCriteria(criteriaDto.getQuantityGreaterThan(), criteriaDto.getTotalPriceGreaterThan());
         for(Invoice invoice : invoices){

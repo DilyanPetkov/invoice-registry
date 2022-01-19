@@ -5,11 +5,14 @@ import com.registry.clientservice.entity.Client;
 import com.registry.clientservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -21,28 +24,50 @@ public class ClientService {
         return mapToDTO(clientRepository.findByClientNumber(clientNumber));
     }
 
-    public Page<Client> getAllClients(Integer page, Integer size) {
+    public Page<ClientDTO> getAllClients(Integer page, Integer size) {
+
         if (page == null || size == null) {
-            if(BigInteger.valueOf(clientRepository.count()).compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) < 0){
-                return clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count(), Sort.by(Sort.Direction.ASC, "clientName")));
-            }
-            else throw new ArithmeticException("Entities in DB way too much, cannot display them on the pages");
+            if (BigInteger.valueOf(clientRepository.count()).compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) < 0) {
+                Page<Client> clients = clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count(),
+                        Sort.by(Sort.Direction.ASC, "clientName")));
+                List<Client> clientList = clients.getContent();
+                List<ClientDTO> clientDTOS = new ArrayList<>();
+                for (Client client : clientList) {
+                    clientDTOS.add(mapToDTO(client));
+                }
+
+                return new PageImpl<>(clientDTOS, PageRequest.of(0, (int) clientRepository.count(),
+                        Sort.by(Sort.Direction.ASC, "clientName")),
+                        (int) clientRepository.count());
+
+            } else
+                throw new ArithmeticException("Entities in DB way too much, cannot display them on the pages");
         }
-        return clientRepository.findAll(PageRequest.of(page, size));
+
+        Page<Client> clients = clientRepository.findAll(PageRequest.of(page, size));
+        List<Client> clientList = clients.getContent();
+        List<ClientDTO> clientDTOS = new ArrayList<>();
+        for (Client client : clientList) {
+            clientDTOS.add(mapToDTO(client));
+        }
+
+        return new PageImpl<>(clientDTOS, PageRequest.of(page, size),
+                (int) clientRepository.count());
+
     }
 
     public ClientDTO createClient(ClientDTO clientDTO) {
         return mapToDTO(clientRepository.save(mapToEntity(clientDTO)));
     }
 
-    private Client mapToEntity(ClientDTO clientDTO){
+    private Client mapToEntity(ClientDTO clientDTO) {
         Client client = new Client();
         client.setClientName(clientDTO.getClientName());
         client.setClientNumber(clientDTO.getClientNumber());
         return client;
     }
 
-    private ClientDTO mapToDTO(Client client){
+    private ClientDTO mapToDTO(Client client) {
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setClientNumber(client.getClientNumber());
         clientDTO.setClientName(client.getClientName());

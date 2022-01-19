@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Data
 public class ItemDTO {
-    private Integer id;
 
     private String serialNumber;
     private String catalogueNumber;

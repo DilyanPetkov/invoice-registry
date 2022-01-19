@@ -1,7 +1,6 @@
 package com.registry.clientservice.controller;
 
 import com.registry.clientservice.dto.ClientDTO;
-import com.registry.clientservice.entity.Client;
 import com.registry.clientservice.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -15,18 +14,18 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping("/{clientNumber}")
-    public ClientDTO getClientByClientNumber(@PathVariable("clientNumber") String clientNumber){
+    public ClientDTO getClientByClientNumber(@PathVariable("clientNumber") String clientNumber) {
         return clientService.findOneByClientNumber(clientNumber);
     }
 
     @GetMapping
-    public Page<Client> getAllClients(@RequestParam(value = "page", required = false) Integer page,
-                                      @RequestParam(value = "size", required = false) Integer size){
+    public Page<ClientDTO> getAllClients(@RequestParam(value = "page", required = false) Integer page,
+                                         @RequestParam(value = "size", required = false) Integer size) {
         return clientService.getAllClients(page, size);
     }
 
     @PostMapping
-    public ClientDTO createClient(@RequestBody ClientDTO client){
+    public ClientDTO createClient(@RequestBody ClientDTO client) {
         return clientService.createClient(client);
     }
 
