@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceSearchRequestDTO {
-    Integer quantity;
-    BigDecimal totalPrice;
+    Integer quantityGreaterThan;
+    BigDecimal totalPriceGreaterThan;
 
 }
