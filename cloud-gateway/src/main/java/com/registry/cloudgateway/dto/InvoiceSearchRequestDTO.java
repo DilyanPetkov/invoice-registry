@@ -9,8 +9,8 @@ import java.math.BigDecimal;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CriteriaDTO {
-    BigDecimal quantity;
+public class InvoiceSearchRequestDTO {
+    Integer quantity;
     BigDecimal totalPrice;
 
 }

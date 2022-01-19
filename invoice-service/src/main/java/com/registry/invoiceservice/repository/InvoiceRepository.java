@@ -16,7 +16,7 @@ public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
 
     @Query(value = "SELECT * FROM invoice left join invoice_items on invoice.id=invoice_items.invoice_id left join item on invoice_items.items_id=item.id WHERE item.quantity < ?1 and item.total_price < ?2",
             nativeQuery = true)
-    List<Invoice> searchInvoiceByCriteria(BigDecimal quantity, BigDecimal totalPrice);
+    List<Invoice> searchInvoiceByCriteria(Integer quantity, BigDecimal totalPrice);
 
     Page<Invoice> findAll(Pageable pageable);
 }

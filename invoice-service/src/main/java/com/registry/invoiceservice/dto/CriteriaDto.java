@@ -10,6 +10,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CriteriaDto {
-    BigDecimal quantityGreaterThan;
+    Integer quantityGreaterThan;
     BigDecimal totalPriceGreaterThan;
 }

@@ -17,7 +17,7 @@ public class ItemDTO {
     private String name;
     private BigDecimal singlePrice;
     private BigDecimal vat;
-    private BigDecimal quantity;
+    private Integer quantity;
     private BigDecimal totalPrice;
 
 }

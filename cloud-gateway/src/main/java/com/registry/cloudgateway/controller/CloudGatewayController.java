@@ -1,8 +1,8 @@
 package com.registry.cloudgateway.controller;
 
 import com.registry.cloudgateway.dto.ClientDTO;
-import com.registry.cloudgateway.dto.CriteriaDTO;
 import com.registry.cloudgateway.dto.InvoiceDTO;
+import com.registry.cloudgateway.dto.InvoiceSearchRequestDTO;
 import com.registry.cloudgateway.dto.RestResponsePage;
 import com.registry.cloudgateway.service.CloudGatewayService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +52,8 @@ public class CloudGatewayController {
     }
 
     @PostMapping("/invoices/search")
-    public List<InvoiceDTO> searchInvoice(@RequestBody CriteriaDTO criteriaDTO) {
-        return cloudGatewayService.searchInvoice(criteriaDTO);
+    public List<InvoiceDTO> searchInvoice(@RequestBody InvoiceSearchRequestDTO invoiceSearchRequestDTO) {
+        return cloudGatewayService.searchInvoice(invoiceSearchRequestDTO);
     }
 
 }

@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class InvoiceService {
     public InvoiceDTO createInvoice(Invoice invoice) {
         List<Item> itemList = invoice.getItems();
         for (Item item : itemList) {
-            item.setTotalPrice(item.getSinglePrice().add(item.getQuantity().multiply(item.getVat())));
+            item.setTotalPrice(item.getSinglePrice().add(BigDecimal.valueOf(item.getQuantity()).multiply(item.getVat())));
         }
         invoice.setItems(itemList);
         return mapToInvoiceDTO(invoiceRepository.save(invoice));

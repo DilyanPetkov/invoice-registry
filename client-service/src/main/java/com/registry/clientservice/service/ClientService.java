@@ -9,6 +9,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import java.math.BigInteger;
+
 @Service
 public class ClientService {
 
@@ -21,7 +24,10 @@ public class ClientService {
 
     public Page<Client> getAllClients(Integer page, Integer size) {
         if (page == null || size == null) {
-            return clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count(), Sort.by(Sort.Direction.ASC, "clientName")));
+            if(BigInteger.valueOf(clientRepository.count()).compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) < 0){
+                return clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count(), Sort.by(Sort.Direction.ASC, "clientName")));
+            }
+            else throw new ArithmeticException("Entities in DB way too much, cannot display them on the pages");
         }
         return clientRepository.findAll(PageRequest.of(page, size));
     }
@@ -30,7 +36,7 @@ public class ClientService {
         return mapToDTO(clientRepository.save(client));
     }
 
-    public ClientDTO mapToDTO(Client client){
+    private ClientDTO mapToDTO(Client client){
         ClientDTO clientDTO = new ClientDTO();
         clientDTO.setClientName(client.getClientName());
         clientDTO.setClientNumber(clientDTO.getClientNumber());

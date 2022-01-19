@@ -1,8 +1,8 @@
 package com.registry.cloudgateway.service;
 
 import com.registry.cloudgateway.dto.ClientDTO;
-import com.registry.cloudgateway.dto.CriteriaDTO;
 import com.registry.cloudgateway.dto.InvoiceDTO;
+import com.registry.cloudgateway.dto.InvoiceSearchRequestDTO;
 import com.registry.cloudgateway.dto.RestResponsePage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,8 +36,8 @@ public class CloudGatewayService {
         return restTemplate.postForObject(invoiceUrl, invoiceDTO, InvoiceDTO.class);
     }
 
-    public List<InvoiceDTO> searchInvoice(CriteriaDTO criteriaDTO) {
-        return Arrays.asList(restTemplate.postForObject(invoiceUrl + SEARCH, criteriaDTO, InvoiceDTO[].class));
+    public List<InvoiceDTO> searchInvoice(InvoiceSearchRequestDTO invoiceSearchRequestDTO) {
+        return Arrays.asList(restTemplate.postForObject(invoiceUrl + SEARCH, invoiceSearchRequestDTO, InvoiceDTO[].class));
     }
 
     public ResponseEntity<RestResponsePage<InvoiceDTO>> getAllInvoices(Integer page, Integer size) {
