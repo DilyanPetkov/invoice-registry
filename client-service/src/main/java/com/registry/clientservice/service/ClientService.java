@@ -31,8 +31,15 @@ public class ClientService {
         return clientRepository.findAll(PageRequest.of(page, size));
     }
 
-    public ClientDTO createClient(Client client) {
-        return mapToDTO(clientRepository.save(client));
+    public ClientDTO createClient(ClientDTO clientDTO) {
+        return mapToDTO(clientRepository.save(mapToEntity(clientDTO)));
+    }
+
+    private Client mapToEntity(ClientDTO clientDTO){
+        Client client = new Client();
+        client.setClientName(clientDTO.getClientName());
+        client.setClientNumber(clientDTO.getClientNumber());
+        return client;
     }
 
     private ClientDTO mapToDTO(Client client){
