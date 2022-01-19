@@ -21,13 +21,13 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    public InvoiceDTO createInvoice(Invoice invoice) {
-        List<Item> itemList = invoice.getItems();
-        for (Item item : itemList) {
-            item.setTotalPrice(item.getSinglePrice().add(BigDecimal.valueOf(item.getQuantity()).multiply(item.getVat())));
+    public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
+        List<ItemDTO> itemList = invoiceDTO.getItems();
+        for (ItemDTO itemDTO : itemList) {
+            itemDTO.setTotalPrice(itemDTO.getSinglePrice().add(BigDecimal.valueOf(itemDTO.getQuantity()).multiply(itemDTO.getVat())));
         }
-        invoice.setItems(itemList);
-        return mapToInvoiceDTO(invoiceRepository.save(invoice));
+        invoiceDTO.setItems(itemList);
+        return mapToInvoiceDTO(invoiceRepository.save(mapToInvoiceEntity(invoiceDTO)));
     }
 
     public Page<Invoice> getAllInvoices(Integer page, Integer size) {
@@ -76,6 +76,34 @@ public class InvoiceService {
         }
         invoiceDTO.setItems(itemDTOS);
         return invoiceDTO;
+    }
+
+    private Item mapToItemEntity(ItemDTO itemDto){
+        Item item = new Item();
+        item.setName(itemDto.getName());
+        item.setQuantity(itemDto.getQuantity());
+        item.setCatalogueNumber(itemDto.getCatalogueNumber());
+        item.setTotalPrice(itemDto.getTotalPrice());
+        item.setSerialNumber(itemDto.getSerialNumber());
+        item.setSinglePrice(itemDto.getSinglePrice());
+        item.setVat(itemDto.getVat());
+        return item;
+    }
+
+    private Invoice mapToInvoiceEntity(InvoiceDTO invoiceDto){
+        Invoice invoice = new Invoice();
+        invoice.setClientName(invoiceDto.getClientName());
+        invoice.setClientNumber(invoiceDto.getClientNumber());
+        invoice.setIssuedBy(invoiceDto.getIssuedBy());
+        invoice.setId(invoiceDto.getId());
+        List<Item> items = new ArrayList<>();
+        List<ItemDTO> itemDTOS = invoiceDto.getItems();
+        for(ItemDTO itemDTO : itemDTOS){
+            Item item = mapToItemEntity(itemDTO);
+            items.add(item);
+        }
+        invoice.setItems(items);
+        return invoice;
     }
 
 }

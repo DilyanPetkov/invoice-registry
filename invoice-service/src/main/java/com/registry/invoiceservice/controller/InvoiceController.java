@@ -29,8 +29,8 @@ public class InvoiceController {
     }
 
     @PostMapping
-    public InvoiceDTO createInvoice(@RequestBody Invoice invoice) {
-        return invoiceService.createInvoice(invoice);
+    public InvoiceDTO createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
+        return invoiceService.createInvoice(invoiceDTO);
     }
 
     @PostMapping("/search")
