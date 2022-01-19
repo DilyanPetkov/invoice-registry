@@ -33,16 +33,21 @@ public class InvoiceService {
         return mapToInvoiceDTO(invoiceRepository.save(mapToInvoiceEntity(invoiceDTO)));
     }
 
+    private List<InvoiceDTO> getInvoiceDtoList(Page<Invoice> invoicePage){
+        List<Invoice> invoices = invoicePage.getContent();
+        List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
+        for (Invoice invoice : invoices) {
+            invoiceDTOS.add(mapToInvoiceDTO(invoice));
+        }
+        return  invoiceDTOS;
+    }
+
     public Page<InvoiceDTO> getAllInvoices(Integer page, Integer size) {
         if (page == null || size == null) {
             if (BigInteger.valueOf(invoiceRepository.count()).compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) < 0) {
                 Page<Invoice> invoicePage = invoiceRepository.findAll(PageRequest.of(0, (int) invoiceRepository.count(),
                         Sort.by(Sort.Direction.ASC, "clientName")));
-                List<Invoice> invoices = invoicePage.getContent();
-                List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
-                for (Invoice invoice : invoices) {
-                    invoiceDTOS.add(mapToInvoiceDTO(invoice));
-                }
+                List<InvoiceDTO> invoiceDTOS = getInvoiceDtoList(invoicePage);
 
                 return new PageImpl<>(invoiceDTOS, PageRequest.of(0, (int) invoiceRepository.count(),
                         Sort.by(Sort.Direction.ASC, "clientName")),
@@ -51,12 +56,9 @@ public class InvoiceService {
             } else
                 throw new ArithmeticException("Entities in DB way too much, cannot display them on the pages");
         }
+
         Page<Invoice> invoicePage = invoiceRepository.findAll(PageRequest.of(page, size));
-        List<Invoice> invoices = invoicePage.getContent();
-        List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
-        for (Invoice invoice : invoices) {
-            invoiceDTOS.add(mapToInvoiceDTO(invoice));
-        }
+        List<InvoiceDTO> invoiceDTOS = getInvoiceDtoList(invoicePage);
 
         return new PageImpl<>(invoiceDTOS, PageRequest.of(page, size),
                 (int) invoiceRepository.count());

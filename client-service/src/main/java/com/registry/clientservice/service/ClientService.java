@@ -24,17 +24,22 @@ public class ClientService {
         return mapToDTO(clientRepository.findByClientNumber(clientNumber));
     }
 
+    private List<ClientDTO> getClientDtoList(Page<Client> clientPage){
+        List<Client> clients = clientPage.getContent();
+        List<ClientDTO> invoiceDTOS = new ArrayList<>();
+        for (Client client : clients) {
+            invoiceDTOS.add(mapToDTO(client));
+        }
+        return  invoiceDTOS;
+    }
+
     public Page<ClientDTO> getAllClients(Integer page, Integer size) {
 
         if (page == null || size == null) {
             if (BigInteger.valueOf(clientRepository.count()).compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) < 0) {
                 Page<Client> clients = clientRepository.findAll(PageRequest.of(0, (int) clientRepository.count(),
                         Sort.by(Sort.Direction.ASC, "clientName")));
-                List<Client> clientList = clients.getContent();
-                List<ClientDTO> clientDTOS = new ArrayList<>();
-                for (Client client : clientList) {
-                    clientDTOS.add(mapToDTO(client));
-                }
+                List<ClientDTO> clientDTOS = getClientDtoList(clients);
 
                 return new PageImpl<>(clientDTOS, PageRequest.of(0, (int) clientRepository.count(),
                         Sort.by(Sort.Direction.ASC, "clientName")),
@@ -45,11 +50,7 @@ public class ClientService {
         }
 
         Page<Client> clients = clientRepository.findAll(PageRequest.of(page, size));
-        List<Client> clientList = clients.getContent();
-        List<ClientDTO> clientDTOS = new ArrayList<>();
-        for (Client client : clientList) {
-            clientDTOS.add(mapToDTO(client));
-        }
+        List<ClientDTO> clientDTOS = getClientDtoList(clients);
 
         return new PageImpl<>(clientDTOS, PageRequest.of(page, size),
                 (int) clientRepository.count());
