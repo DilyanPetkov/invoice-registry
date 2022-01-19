@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.math.BigInteger;
 
 @Service
@@ -38,8 +37,8 @@ public class ClientService {
 
     private ClientDTO mapToDTO(Client client){
         ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setClientNumber(client.getClientNumber());
         clientDTO.setClientName(client.getClientName());
-        clientDTO.setClientNumber(clientDTO.getClientNumber());
         return clientDTO;
     }
 

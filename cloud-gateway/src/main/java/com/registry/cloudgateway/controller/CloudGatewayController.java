@@ -6,13 +6,11 @@ import com.registry.cloudgateway.dto.InvoiceSearchRequestDTO;
 import com.registry.cloudgateway.dto.RestResponsePage;
 import com.registry.cloudgateway.service.CloudGatewayService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@EnableEurekaClient
 @RestController
 public class CloudGatewayController {
 
