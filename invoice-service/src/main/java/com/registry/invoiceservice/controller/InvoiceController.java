@@ -1,6 +1,7 @@
 package com.registry.invoiceservice.controller;
 
 import com.registry.invoiceservice.dto.CriteriaDto;
+import com.registry.invoiceservice.dto.InvoiceDTO;
 import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ public class InvoiceController {
     private InvoiceService invoiceService;
 
     @GetMapping("/{id}")
-    public Invoice getById(@PathVariable("id") Long id) {
+    public InvoiceDTO getById(@PathVariable("id") Long id) {
         return invoiceService.getInvoiceById(id);
     }
 
@@ -28,12 +29,12 @@ public class InvoiceController {
     }
 
     @PostMapping
-    public Invoice createInvoice(@RequestBody Invoice invoice) {
+    public InvoiceDTO createInvoice(@RequestBody Invoice invoice) {
         return invoiceService.createInvoice(invoice);
     }
 
     @PostMapping("/search")
-    public List<Invoice> getInvoicesByCriteria(@RequestBody CriteriaDto criteriaDto) {
+    public List<InvoiceDTO> getInvoicesByCriteria(@RequestBody CriteriaDto criteriaDto) {
         return invoiceService.getInvoicesByCriteria(criteriaDto);
     }
 

@@ -1,5 +1,6 @@
 package com.registry.clientservice.service;
 
+import com.registry.clientservice.dto.ClientDTO;
 import com.registry.clientservice.entity.Client;
 import com.registry.clientservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +15,8 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-    public Client findOneByClientNumber(String clientNumber) {
-        return clientRepository.findByClientNumber(clientNumber);
+    public ClientDTO findOneByClientNumber(String clientNumber) {
+        return mapToDTO(clientRepository.findByClientNumber(clientNumber));
     }
 
     public Page<Client> getAllClients(Integer page, Integer size) {
@@ -25,8 +26,15 @@ public class ClientService {
         return clientRepository.findAll(PageRequest.of(page, size));
     }
 
-    public Client createClient(Client client) {
-        return clientRepository.save(client);
+    public ClientDTO createClient(Client client) {
+        return mapToDTO(clientRepository.save(client));
+    }
+
+    public ClientDTO mapToDTO(Client client){
+        ClientDTO clientDTO = new ClientDTO();
+        clientDTO.setClientName(client.getClientName());
+        clientDTO.setClientNumber(clientDTO.getClientNumber());
+        return clientDTO;
     }
 
 }

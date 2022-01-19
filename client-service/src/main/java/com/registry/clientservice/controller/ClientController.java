@@ -1,5 +1,6 @@
 package com.registry.clientservice.controller;
 
+import com.registry.clientservice.dto.ClientDTO;
 import com.registry.clientservice.entity.Client;
 import com.registry.clientservice.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ public class ClientController {
     private ClientService clientService;
 
     @GetMapping("/{clientNumber}")
-    public Client getClientByClientNumber(@PathVariable("clientNumber") String clientNumber){
+    public ClientDTO getClientByClientNumber(@PathVariable("clientNumber") String clientNumber){
         return clientService.findOneByClientNumber(clientNumber);
     }
 
@@ -25,7 +26,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public Client createClient(@RequestBody Client client){
+    public ClientDTO createClient(@RequestBody Client client){
         return clientService.createClient(client);
     }
 
