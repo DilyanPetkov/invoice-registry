@@ -1,21 +1,13 @@
-package com.registry.cloudgateway.dto;
+package com.registry.clientservice.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class InvoiceDTO {
-
-    private Long id;
-
+public class ClientDTO {
     private String clientNumber;
     private String clientName;
-    private String issuedBy;
-
-    private List<ItemDTO> items;
 }

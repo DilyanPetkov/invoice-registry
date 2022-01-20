@@ -2,14 +2,15 @@ package com.registry.cloudgateway.controller;
 
 import com.registry.cloudgateway.dto.ClientDTO;
 import com.registry.cloudgateway.dto.InvoiceDTO;
+import com.registry.cloudgateway.dto.InvoiceSearchRequestDTO;
+import com.registry.cloudgateway.dto.RestResponsePage;
 import com.registry.cloudgateway.service.CloudGatewayService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@EnableEurekaClient
 @RestController
 public class CloudGatewayController {
 
@@ -22,28 +23,35 @@ public class CloudGatewayController {
     }
 
     @GetMapping("/clients")
-    public List<ClientDTO> getAllClients() {
-        return cloudGatewayService.getAllClients();
+    public ResponseEntity<RestResponsePage<ClientDTO>> getAllClients(@RequestParam(value = "page", required = false) Integer page,
+                                                                     @RequestParam(value = "size", required = false) Integer size) {
+        return cloudGatewayService.getAllClients(page, size);
     }
 
-    @PostMapping("clients")
+    @PostMapping("/clients")
     public ClientDTO createClient(@RequestBody ClientDTO clientDTO) {
         return cloudGatewayService.createClient(clientDTO);
     }
 
     @GetMapping("/invoices/{id}")
-    public InvoiceDTO getInvoiceById(@PathVariable("id") Integer id) {
+    public InvoiceDTO getInvoiceById(@PathVariable("id") Long id) {
         return cloudGatewayService.getInvoiceById(id);
     }
 
     @GetMapping("/invoices")
-    public List<InvoiceDTO> getAllInvoices() {
-        return cloudGatewayService.getAllInvoices();
+    public ResponseEntity<RestResponsePage<InvoiceDTO>> getAllInvoices(@RequestParam(value = "page", required = false) Integer page,
+                                                                       @RequestParam(value = "size", required = false) Integer size) {
+        return cloudGatewayService.getAllInvoices(page, size);
     }
 
     @PostMapping("/invoices")
     public InvoiceDTO createInvoice(@RequestBody InvoiceDTO invoiceDTO) {
         return cloudGatewayService.createInvoice(invoiceDTO);
+    }
+
+    @PostMapping("/invoices/search")
+    public List<InvoiceDTO> searchInvoice(@RequestBody InvoiceSearchRequestDTO invoiceSearchRequestDTO) {
+        return cloudGatewayService.searchInvoice(invoiceSearchRequestDTO);
     }
 
 }
