@@ -1,8 +1,8 @@
 package com.registry.invoiceservice.controller;
 
-import com.registry.invoiceservice.dto.InvoiceSearchRequestDTO;
 import com.registry.invoiceservice.dto.InvoiceDTO;
-import com.registry.invoiceservice.entity.Invoice;
+import com.registry.invoiceservice.dto.InvoiceSearchRequestDTO;
+import com.registry.invoiceservice.exception.InvoiceSearchException;
 import com.registry.invoiceservice.service.InvoiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,7 +34,7 @@ public class InvoiceController {
     }
 
     @PostMapping("/search")
-    public List<InvoiceDTO> getInvoicesByCriteria(@RequestBody InvoiceSearchRequestDTO criteriaDto) {
+    public List<InvoiceDTO> getInvoicesByCriteria(@RequestBody InvoiceSearchRequestDTO criteriaDto) throws InvoiceSearchException {
         return invoiceService.getInvoicesByCriteria(criteriaDto);
     }
 

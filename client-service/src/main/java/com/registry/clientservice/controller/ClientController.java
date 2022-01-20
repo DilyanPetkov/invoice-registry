@@ -1,6 +1,8 @@
 package com.registry.clientservice.controller;
 
 import com.registry.clientservice.dto.ClientDTO;
+import com.registry.clientservice.exception.ClientAlreadyExistsException;
+import com.registry.clientservice.exception.ClientNotFoundException;
 import com.registry.clientservice.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,7 +27,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ClientDTO createClient(@RequestBody ClientDTO client) {
+    public ClientDTO createClient(@RequestBody ClientDTO client){
         return clientService.createClient(client);
     }
 

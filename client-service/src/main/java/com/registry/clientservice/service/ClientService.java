@@ -2,6 +2,8 @@ package com.registry.clientservice.service;
 
 import com.registry.clientservice.dto.ClientDTO;
 import com.registry.clientservice.entity.Client;
+import com.registry.clientservice.exception.ClientAlreadyExistsException;
+import com.registry.clientservice.exception.ClientNotFoundException;
 import com.registry.clientservice.repository.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,9 @@ public class ClientService {
     private ClientRepository clientRepository;
 
     public ClientDTO findOneByClientNumber(String clientNumber) {
+        if(clientRepository.findByClientNumber(clientNumber) == null){
+            throw new ClientNotFoundException(clientNumber);
+        }
         return mapToDTO(clientRepository.findByClientNumber(clientNumber));
     }
 
@@ -58,6 +63,9 @@ public class ClientService {
     }
 
     public ClientDTO createClient(ClientDTO clientDTO) {
+        if(clientRepository.findByClientNumber(clientDTO.getClientNumber()) != null){
+            throw new ClientAlreadyExistsException(clientDTO.getClientNumber());
+        }
         return mapToDTO(clientRepository.save(mapToEntity(clientDTO)));
     }
 

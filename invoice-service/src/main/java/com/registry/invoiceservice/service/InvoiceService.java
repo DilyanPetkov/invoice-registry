@@ -5,6 +5,9 @@ import com.registry.invoiceservice.dto.InvoiceDTO;
 import com.registry.invoiceservice.dto.ItemDTO;
 import com.registry.invoiceservice.entity.Invoice;
 import com.registry.invoiceservice.entity.Item;
+import com.registry.invoiceservice.exception.InvalidInputException;
+import com.registry.invoiceservice.exception.InvoiceNotFoundException;
+import com.registry.invoiceservice.exception.InvoiceSearchException;
 import com.registry.invoiceservice.repository.InvoiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,7 +27,14 @@ public class InvoiceService {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
+    private boolean isClientNumberInvalid(String clientNumber){
+        return clientNumber.matches(".*[a-zA-Z]+.*");
+    }
+
     public InvoiceDTO createInvoice(InvoiceDTO invoiceDTO) {
+        if(isClientNumberInvalid(invoiceDTO.getClientNumber())){
+            throw new InvalidInputException(invoiceDTO.getClientNumber());
+        }
         List<ItemDTO> itemList = invoiceDTO.getItems();
         for (ItemDTO itemDTO : itemList) {
             itemDTO.setTotalPrice(itemDTO.getSinglePrice().add(BigDecimal.valueOf(itemDTO.getQuantity()).multiply(itemDTO.getVat())));
@@ -65,12 +75,18 @@ public class InvoiceService {
     }
 
     public InvoiceDTO getInvoiceById(Long id) {
+        if(invoiceRepository.findById(id).get() == null){
+            throw new InvoiceNotFoundException(String.valueOf(id));
+        }
         return mapToInvoiceDTO(invoiceRepository.findById(id).get());
     }
 
-    public List<InvoiceDTO> getInvoicesByCriteria(InvoiceSearchRequestDTO criteriaDto) {
+    public List<InvoiceDTO> getInvoicesByCriteria(InvoiceSearchRequestDTO criteriaDto) throws InvoiceSearchException {
         List<InvoiceDTO> invoiceDTOS = new ArrayList<>();
         List<Invoice> invoices = invoiceRepository.searchInvoiceByCriteria(criteriaDto.getQuantityGreaterThan(), criteriaDto.getTotalPriceGreaterThan());
+        if(invoices.size() == 0){
+            throw new InvoiceSearchException();
+        }
         for(Invoice invoice : invoices){
             invoiceDTOS.add(mapToInvoiceDTO(invoice));
         }
