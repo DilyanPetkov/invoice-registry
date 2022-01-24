@@ -75,10 +75,7 @@ public class InvoiceService {
     }
 
     public InvoiceDTO getInvoiceById(Long id) {
-        if(invoiceRepository.findById(id).get() == null){
-            throw new InvoiceNotFoundException(String.valueOf(id));
-        }
-        return mapToInvoiceDTO(invoiceRepository.findById(id).get());
+        return mapToInvoiceDTO(invoiceRepository.findById(id).orElseThrow(() -> new InvoiceNotFoundException(String.valueOf(id))));
     }
 
     public List<InvoiceDTO> getInvoicesByCriteria(InvoiceSearchRequestDTO criteriaDto) throws InvoiceSearchException {
